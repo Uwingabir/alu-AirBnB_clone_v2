@@ -54,7 +54,6 @@ class DBStorage:
                     dic[key] = elem
         return (dic)
 
-
     def new(self, obj):
         """add a new element in the table
         """
