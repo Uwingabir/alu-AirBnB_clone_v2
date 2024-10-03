@@ -7,8 +7,6 @@ from fabric.api import local
 from fabric.api import put
 from fabric.api import run
 
-
-
 env.hosts = ['18.209.49.232', '54.89.11.80']
 def do_pack():
     """ creates gzipped archive of the directory web_static """
@@ -66,7 +64,6 @@ def do_deploy(archive_path):
            format(name)).failed is True:
         return False
     return True
-
 
 def deploy():
     """ creates and redistribute an archive to web server """
