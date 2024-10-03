@@ -48,6 +48,3 @@ def do_deploy(c, archive_path):
     except Exception as e:
         print(f"An error occurred during deployment: {e}")
         return False
-
-# To execute the task, use:
-# fab -H <host_ip> do_deploy:/path/to/archive
