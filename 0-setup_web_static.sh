@@ -1,13 +1,34 @@
 #!/usr/bin/env bash
-# web static development
+# Sets up web servers for deployment of web_static
 
-sudo apt-get -y update
-sudo apt-get -y upgrade
-sudo apt-get -y install nginx
+# Install Nginx if not already installed
+sudo apt-get update -y
+sudo apt-get install -y nginx
+
+# Create necessary directories
 sudo mkdir -p /data/web_static/releases/test /data/web_static/shared
-echo "Hello, this is a test HTML file." | sudo tee /data/web_static/releases/test/index.html
-sudo rm -rf /data/web_static/current
-sudo ln -s /data/web_static/releases/test/ /data/web_static/current
+
+# Create a fake HTML file to test Nginx configuration
+echo "<html>
+  <head>
+  </head>
+  <body>
+    Holberton School
+  </body>
+</html>" | sudo tee /data/web_static/releases/test/index.html
+
+# Create symbolic link, force (-f) remove it if it exists
+sudo ln -sf /data/web_static/releases/test/ /data/web_static/current
+
+# Set ownership of /data/ folder to ubuntu user and group recursively
 sudo chown -R ubuntu:ubuntu /data/
-sudo sed -i '44i \\n\tlocation /hbnb_static {\n\t\talias /data/web_static/current/;\n\t}' /etc/nginx/sites-available/default
+
+# Update Nginx configuration to serve the content from the symbolic link
+# The alias directive is used to map /hbnb_static to /data/web_static/current/
+sudo sed -i '/server_name _;/a \\n\tlocation /hbnb_static {\n\t\talias /data/web_static/current/;\n\t}' /etc/nginx/sites-available/default
+
+# Restart Nginx to apply changes
 sudo service nginx restart
+
+# Ensure script exits successfully
+exit 0
