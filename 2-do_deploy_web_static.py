@@ -8,7 +8,6 @@ from fabric.api import put, run, env
 from os.path import exists
 env.hosts = ['100.27.187.5', '54.167.59.7']
 
-
 def do_deploy(archive_path):
     """distributes an archive to the web servers"""
     if exists(archive_path) is False:
@@ -25,15 +24,6 @@ def do_deploy(archive_path):
         run('rm -rf {}{}/web_static'.format(path, no_ext))
         run('rm -rf /data/web_static/current')
         run('ln -s {}{}/ /data/web_static/current'.format(path, no_ext))
-        # Ensure correct ownership of the files
-        print("Setting ownership to ubuntu:ubuntu")
-        run('chown -R ubuntu:ubuntu /data/web_static/releases/{}/'.format(no_ext))
-
-        # Restart Nginx to ensure it serves the new content
-        print("Restarting Nginx")
-        run('sudo service nginx restart')
-
-        print("Deployment successful")
         return True
     except:
         return False
