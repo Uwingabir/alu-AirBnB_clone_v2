@@ -100,4 +100,8 @@ class TestDBStorage(unittest.TestCase):
 
 
 if __name__ == '__main__':
+<<<<<<< HEAD
     unittest.main()
+=======
+    unittest.main()
+>>>>>>> b4a0a8a0012651a185659ff583f9dceec21be3ec
