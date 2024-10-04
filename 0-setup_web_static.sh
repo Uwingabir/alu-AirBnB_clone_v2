@@ -23,14 +23,9 @@ sudo ln -sf /data/web_static/releases/test/ /data/web_static/current
 # Set ownership of /data/ folder to ubuntu user and group recursively
 sudo chown -R ubuntu:ubuntu /data/
 
-
-# Modify Nginx configuration to support multiple hosts
-# server_name directive will listen for localhost, 100.27.187.5, and 54.167.59.7
-sudo sed -i '/server_name _;/c\\tserver_name localhost 100.27.187.5 54.167.59.7;' /etc/nginx/sites-available/default
-
-# Add the location block to serve /hbnb_static from /data/web_static/current/
-sudo sed -i '/server_name localhost/a \\n\tlocation /hbnb_static {\n\t\talias /data/web_static/current/;\n\t}' /etc/nginx/sites-available/default
-
+# Update Nginx configuration to serve the content from the symbolic link
+# The alias directive is used to map /hbnb_static to /data/web_static/current/
+sudo sed -i '/listen 80 default_server/a location /hbnb_static { alias /data/web_static/current/;}' /etc/nginx/sites-enabled/default
 # Restart Nginx to apply changes
 sudo service nginx restart
 
